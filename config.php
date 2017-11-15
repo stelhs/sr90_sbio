@@ -1,0 +1,45 @@
+<?php
+require_once '/usr/local/lib/php/common.php';
+
+define("CONFIG_PATH", "/etc/sr90_sbio/");
+define("DISABLE_HW", 1);
+
+
+function conf_io()
+{
+    static $sbio_name = NULL;
+    static $server_addr = NULL;
+
+    if (!$sbio_name) {
+        @$sbio_name = trim(file_get_contents(".sbio_name"));
+        if (!$sbio_name)
+            $sbio_name = "sbio1";
+    }
+
+    if (!$server_addr) {
+        @$server_addr = trim(file_get_contents(".server_addr"));
+        if (!$server_addr)
+            $server_addr = "192.168.10.240";
+    }
+
+    return ['name' => $sbio_name,
+            'server' => ['ip' => $server_addr,
+                         'port' => 400],
+    	    'inputs_gpio' => [2,4,6,10,8,6],
+            'outputs_gpio' => [7,8,12,14,18],
+            'triggers_input_ports' => [1,2,3,4,5,2,5],
+            'outputs_ports' => [1,2,3,4,5,6,7],
+           ];
+}
+
+
+function conf_valves()
+{
+    return [
+                'borehole_cleaning' => ['name' => 'borehole_cleaning',
+                                        'open_out_port' => 5,
+                                        'close_out_port' => 6,
+                                        'open_in_port' => 7,
+                                        'close_in_port' => 8],
+    ];
+}
