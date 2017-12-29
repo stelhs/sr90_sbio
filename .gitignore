@@ -1,0 +1,2 @@
+*.o
+io_gpio_daemon/gpio_action
