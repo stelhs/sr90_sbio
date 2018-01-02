@@ -25,8 +25,8 @@ function conf_io()
     return ['name' => $sbio_name,
             'server' => ['ip' => $server_addr,
                          'port' => 400],
-    	    'inputs_gpio' => [29,28,27,26],
-            'outputs_gpio' => [7,0,3],
+    	    'inputs_gpio' => [21,20,16,12],
+            'outputs_gpio' => [4,17,22],
             'triggers_input_ports' => [1,2,3,4],
             'outputs_ports' => [1,2,3],
            ];
