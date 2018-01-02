@@ -93,22 +93,23 @@ int main(int argc, char **argv)
     char buf[128];
     struct gpio *gp;
     fd_set rfds;
-    char *shell_script = argv[1];
+    char *shell_script = argv[2];
     int value;
 
-    if (argc < 2) {
-        perror("first argument must be path to shell script\n");
+    if (argc < 3) {
+        perror("first argument must be list of triggered GPIO numbers\n");
+        perror("second argument must be path to shell script\n");
         return -1;
     }
 
     signal(SIGINT, sig_handler);
 
     memset(inputs_list, 0, sizeof inputs_list);
-    rc = parse_config(CONFIG_FILE_NAME, NULL, conf_setter);
+/*    rc = parse_config(CONFIG_FILE_NAME, NULL, conf_setter);
     if (rc < 0) {
         printf("Can't get config\n");
         return -1;
-    }
+    }*/
 
     if (!inputs_list[0].port) {
         printf("Incorrect input-gpio-list parameter\n");
