@@ -79,13 +79,12 @@ int main(int argc, char **argv)
 	int gpio_cnt;
 	struct gpio *gp;
 	fd_set rfds;
-	char *shell_script = argv[2];
+	char *shell_script = (argc >= 2 ? argv[2] : NULL);
 	int value;
 	int i;
 
-	if (argc < 3) {
+	if (argc < 2) {
 		perror("first argument must be list of triggered GPIO numbers\n");
-		perror("second argument must be path to shell script\n");
 		return -1;
 	}
 
@@ -134,7 +133,11 @@ int main(int argc, char **argv)
 			read(gp->fd, buf, 3);
 			sscanf(buf, "%d", &value);
 
-			printf("active %d = %d\n", gp->id, value);
+			printf("trigger port %d state %d\n", gp->id, value);
+
+			if (!shell_script)
+				continue;
+
 			snprintf(buf, sizeof buf, "%s %d %d", shell_script,
 					gp->id, value);
 			system(buf);
