@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS = -Wall
-EXEC = gpio_action
-OBJ = conf.o gpio_action.o
+EXEC = sbio_trigger
+OBJ = conf.o sbio_trigger.o
 
 all: $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(EXEC)
