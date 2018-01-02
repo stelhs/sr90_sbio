@@ -5,6 +5,8 @@ import pigpio
 import subprocess
 import time
 
+script_name = None
+
 class input_port:
   def __init__(self, pi, id, gpio_num):
     self.gpio_num = gpio_num
@@ -16,20 +18,23 @@ class input_port:
     self.cb = pi.callback(gpio_num, pigpio.EITHER_EDGE, self.gpio_triggered)
 
   def gpio_triggered(self, gpio_num, state, time):
+    global script_name
     print (self.id, state)
     if not script_name:
       return
-    
-    subprocess.check_output([script_name, self.id, state])
+
+    try:
+      subprocess.check_output([script_name, str(self.id), str(state)])
+    except subprocess.CalledProcessError as e:
+      print (e.output)
 
   def __del__(self):
     print("del gpio_num: %d" % gpio_num)
     self.cb.cancel()
     del cb
 
-script_name = None
-
 def main(argv):
+  global script_name
   if len(argv) < 2:
     print("first argument must be list of triggered GPIO numbers")
     return -1
