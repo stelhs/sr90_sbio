@@ -7,13 +7,8 @@ require_once 'sbio_lib.php';
 
 function main($argv)
 {
-    if ((!isset($argv[1]) || (!isset($argv[2])))) {
-        perror("Incorrect arguments\n");
-        return -EINVAL;
-    }
-
-    $mode = strtolower(trim($argv[2]));
     parse_str($argv[1], $data);
+    $mode = $data['query'];
 
     switch ($mode) {
     case 'relay_set':
@@ -32,10 +27,13 @@ function main($argv)
             return -EINVAL;
         }
         $port = strtolower(trim($data['port']));
-        $rc = sbio()->relay_get_state($port);
-        if ($rc)
-            return $rc;
-        break;
+        $state = sbio()->relay_get_state($port);
+        if ($state < 0) {
+            perror("Can't get relay state\n");
+            return $state;
+        }
+        echo json_encode(['state' => $state]);
+        return 0;
 
     case 'input_get':
         if (!isset($data['port'])) {
@@ -43,10 +41,12 @@ function main($argv)
             return -EINVAL;
         }
         $port = strtolower(trim($data['port']));
-        $rc = sbio()->input_get_state($port);
-        if ($rc)
+        $state = sbio()->input_get_state($port);
+        if ($state < 0)
             return $rc;
-        break;
+
+        echo json_encode(['state' => $state]);
+        return 0;
     }
 }
 

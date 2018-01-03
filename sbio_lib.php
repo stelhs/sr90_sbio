@@ -38,7 +38,7 @@ class Sbio {
             return -EBUSY;
         }
 
-        return $state;
+        return (int)$state;
     }
 
     public function input_get_state($port)
@@ -55,7 +55,7 @@ class Sbio {
             return -EBUSY;
         }
 
-        return $state;
+        return (int)$state;
     }
 
     public function wdt_reset()

@@ -2,7 +2,11 @@
 require_once '/usr/local/lib/php/common.php';
 
 define("CONFIG_PATH", "/etc/sr90_sbio/");
-define("DISABLE_HW", 1);
+if (is_file('DISABLE_HW'))
+    define("DISABLE_HW", 1);
+else
+    define("DISABLE_HW", 0);
+
 
 
 function conf_io()

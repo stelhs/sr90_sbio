@@ -128,7 +128,7 @@ function main($argv)
     if (!count($parts))
         return_404_request();
 
-    $php_file = sprintf('http_page_%s.php', $parts[0]);
+    $php_file = sprintf("http_page_%s.php", $parts[0]);
     if (!file_exists($php_file))
         return_404_request();
 
@@ -149,8 +149,13 @@ function main($argv)
                                'reason' => $reason]));
 
     }
-    return_ok(json_encode(['status' => 'ok',
-                           'log' => $ret['log']]));
+    $ret_data = json_decode($ret['log'], true);
+    if (!is_array($ret_data)) {
+        return_ok(json_encode(['status' => 'ok',
+                               'log' => $ret['log']]));
+    }
+    $ret_data['status'] = 'ok';
+    return_ok(json_encode($ret_data));
 }
 
 exit(main($argv));

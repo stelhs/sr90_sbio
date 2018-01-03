@@ -156,10 +156,18 @@ function main($argv)
         pnotice("GPIOs init - ok\n");
         return 0;
 
-    case 'triggered_io':
+    case 'gpio_triggered_inputs':
         $gpio_list = [];
         foreach (conf_io()['triggers_input_ports'] as $port)
             $gpio_list[] = conf_io()['inputs_gpio'][$port - 1];
+
+        echo array_to_string($gpio_list, ',');
+        return 0;
+
+    case 'gpio_outputs':
+        $gpio_list = [];
+        foreach (conf_io()['outputs_ports'] as $port)
+            $gpio_list[] = conf_io()['outputs_gpio'][$port - 1];
 
         echo array_to_string($gpio_list, ',');
         return 0;
