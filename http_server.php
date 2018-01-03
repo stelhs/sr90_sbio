@@ -132,10 +132,10 @@ function main($argv)
     if (!file_exists($php_file))
         return_404_request();
 
-    if (!isset($url_parts['query']))
+    if (!isset($parts[1]))
         return_404_request();
 
-    $script = sprintf('./%s "%s"', $php_file, $url_parts['query']);
+    $script = sprintf('./%s %s "%s"', $php_file, $parts[1], $url_parts['query']);
     unset($parts[0]);
     foreach ($parts as $part)
         $script .= ' ' . $part;

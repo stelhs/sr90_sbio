@@ -7,8 +7,13 @@ require_once 'sbio_lib.php';
 
 function main($argv)
 {
-    parse_str($argv[1], $data);
-    $mode = $data['query'];
+    if (count($argv) < 3) {
+        perror("Incorrect arguments\n");
+        return -EINVAL;
+    }
+
+    $mode = $argv[1];
+    parse_str($argv[2], $data);
 
     switch ($mode) {
     case 'relay_set':
