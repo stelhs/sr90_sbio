@@ -1,0 +1,10 @@
+service sbio-server
+{
+ disable = no
+ socket_type = stream
+ protocol = tcp
+ wait = no
+ user = root
+ server = /root/sr90_sbio/http_server.php
+}
+
