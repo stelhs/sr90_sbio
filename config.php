@@ -33,6 +33,7 @@ function conf_io()
             'outputs_gpio' => [4,17,22],
             'triggers_input_ports' => [1,2,3,4],
             'outputs_ports' => [1,2,3],
+            'errors_log_file' => 'errors.log'
            ];
 }
 

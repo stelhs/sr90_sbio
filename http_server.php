@@ -132,10 +132,12 @@ function main($argv)
     if (!file_exists($php_file))
         return_404_request();
 
-    if (!isset($parts[1]))
+    $method = isset($parts[1]) ? $parts[1] : "";
+    $query_params =  isset($url_parts['query']) ? $url_parts['query'] : "";
+    if (!isset($method))
         return_404_request();
 
-    $script = sprintf('./%s %s "%s"', $php_file, $parts[1], $url_parts['query']);
+    $script = sprintf('./%s %s "%s"', $php_file, $method, $query_params);
     unset($parts[0]);
     foreach ($parts as $part)
         $script .= ' ' . $part;
@@ -154,7 +156,8 @@ function main($argv)
         return_ok(json_encode(['status' => 'ok',
                                'log' => $ret['log']]));
     }
-    $ret_data['status'] = 'ok';
+    if (!isset($ret_data['status']))
+        $ret_data['status'] = 'ok';
     return_ok(json_encode($ret_data));
 }
 
