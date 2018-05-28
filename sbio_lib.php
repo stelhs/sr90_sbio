@@ -82,6 +82,21 @@ class Sbio {
         msg_log(LOG_ERR, sprintf("USIO: can't wdt off : %s\n", $ret));
         return -EBUSY;
     }
+
+    public function get_temperatures()
+    {
+        $path = "/sys/bus/w1/devices";
+        $devices = get_list_subdirs($path)
+        foreach ($devices as $device) {
+            $content = file_get_contents(sprintf("%s/%s/w1_slave", $path, $device));
+            dump($content);
+            $row = preg_match("/t=(\d+)/", $content);
+            dump($row);
+            $temperature = $row[1];
+            printf("temperature = %d\n", $temperature);
+        }
+
+    }
 }
 
 function sbio()
