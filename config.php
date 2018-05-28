@@ -29,10 +29,10 @@ function conf_io()
     return ['name' => $sbio_name,
             'server' => ['ip' => $server_addr,
                          'port' => 400],
-    	    'inputs_gpio' => [21,20,16,12],
-            'outputs_gpio' => [4,17,22],
-            'triggers_input_ports' => [1,2,3,4],
-            'outputs_ports' => [1,2,3],
+            'inputs_gpio' => [8,9,25,10,24,22,23,27,17,18,3,2],
+            'outputs_gpio' => [21,26,20,19,16,13,6,12,5,7,11],
+            'triggers_input_ports' => [1,2,3,4,5,6,7,8,9,10,11,12],
+            'outputs_ports' => [1,2,3,4,5,6,7,8,9,10,11],
             'errors_log_file' => 'errors.log'
            ];
 }
