@@ -85,19 +85,22 @@ class Sbio {
 
     public function get_temperatures()
     {
+        $result = [];
         $path = "/sys/bus/w1/devices";
-        $devices = get_list_subdirs($path)
+        $devices = get_list_files($path);
         foreach ($devices as $device) {
+            $ret = preg_match("/\d{2}-/", $device);
+            if (!$ret)
+                continue;
             $content = file_get_contents(sprintf("%s/%s/w1_slave", $path, $device));
-            dump($content);
-            $row = preg_match("/t=(\d+)/", $content);
-            dump($row);
-            $temperature = $row[1];
-            printf("temperature = %d\n", $temperature);
+            preg_match_all("/t=(\d+)/", $content, $matches);
+            $temperature = (float)$matches[1][0] / 1000.0;
+            $result[] = ['name' => $device, "temperature" => $temperature];
         }
-
+        return $result;
     }
 }
+
 
 function sbio()
 {
