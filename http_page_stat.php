@@ -34,6 +34,7 @@ function main($argv)
     }
 
     echo json_encode(['trigger_log' => $trigger_err,
+                      'termo_sensors' => sbio()->get_temperatures(),
                       'status' => $status,
                       'error_msg' => $error_msg]);
     return 0;
