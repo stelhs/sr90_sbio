@@ -13,15 +13,16 @@ function conf_io()
 {
     static $sbio_name = NULL;
     static $server_addr = NULL;
+    global $argv;
 
     if (!$sbio_name) {
-        @$sbio_name = trim(file_get_contents(".sbio_name"));
+        @$sbio_name = trim(file_get_contents(dirname($argv[0]) . "/.sbio_name"));
         if (!$sbio_name)
             $sbio_name = "sbio1";
     }
 
     if (!$server_addr) {
-        @$server_addr = trim(file_get_contents(".server_addr"));
+        @$server_addr = trim(file_get_contents(dirname($argv[0]) . "/.server_addr"));
         if (!$server_addr)
             $server_addr = "192.168.10.240";
     }

@@ -198,6 +198,7 @@ function main($argv)
             if ($row['io_name'] != conf_io()['name'])
                 continue;
 
+            printf("set port %d to state %d\n", $row['port'], $row['state']);
             $rc = sbio()->relay_set_state($row['port'], $row['state']);
             if ($rc < 0) {
                 perror("Can't set relay state %d for port %d\n",
