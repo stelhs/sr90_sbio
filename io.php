@@ -23,6 +23,8 @@ function print_help()
                  "\t\t\texample: $utility_name make_action 2 0\n" .
                  "\t\t gpio_init: Initialize all needed GPIOs\n" .
                  "\t\t\texample: $utility_name gpio_init\n" .
+                 "\t\t actualize_state: apply output ports state from last state server storage\n" .
+                 "\t\t\texample: $utility_name actualize_state\n" .
 
              "\n\n");
 }
@@ -170,6 +172,39 @@ function main($argv)
             $gpio_list[] = conf_io()['outputs_gpio'][$port - 1];
 
         echo array_to_string($gpio_list, ',');
+        return 0;
+
+    case 'actualize_state':
+        $content = file_get_contents(sprintf("http://%s:%s/stat",
+                                             conf_io()['server']['ip'],
+                                             conf_io()['server']['port']));
+        if (!$content) {
+            perror("Can't get server stat: Returned content is empty\n");
+            return -ECONNFAIL;
+        }
+
+        $ret = json_decode($content, true);
+        if (!$ret) {
+            perror("Can't decoded JSON returned by server: %s\n", $content);
+            return -EPARSE;
+        }
+
+        if (!isset($ret['io_states'])) {
+            perror("Server don't send 'io_states' section\n");
+            return -EPARSE;
+        }
+
+        foreach ($ret['io_states'] as $row) {
+            if ($row['io_name'] != conf_io()['name'])
+                continue;
+
+            $rc = sbio()->relay_set_state($row['port'], $row['state']);
+            if ($rc < 0) {
+                perror("Can't set relay state %d for port %d\n",
+                                     $row['state'], $row['port']);
+            }
+        }
+
         return 0;
     }
 }
