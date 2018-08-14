@@ -55,7 +55,7 @@ class Sbio {
             return -EBUSY;
         }
 
-        return (int)$state;
+        return !(int)$state;
     }
 
     public function wdt_reset()
