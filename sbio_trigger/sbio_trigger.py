@@ -24,7 +24,7 @@ class input_port:
       return
 
     try:
-      subprocess.check_output([script_name, str(self.id), str(not state)])
+      subprocess.check_output([script_name, str(self.id), str(int(not state))])
     except subprocess.CalledProcessError as e:
       print (e.output)
 
