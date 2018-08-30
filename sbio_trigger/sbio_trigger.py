@@ -6,6 +6,7 @@ import subprocess
 import time
 
 script_name = None
+app_start_time = time.time()
 
 class input_port:
   def __init__(self, pi, id, gpio_num):
@@ -19,8 +20,12 @@ class input_port:
 
   def gpio_triggered(self, gpio_num, state, time):
     global script_name
+    global app_start_time
     print (self.id, state)
     if not script_name:
+      return
+  
+    if time.time() - app_start_time < 30:
       return
 
     try:
