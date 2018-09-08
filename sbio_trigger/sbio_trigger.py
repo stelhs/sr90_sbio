@@ -18,14 +18,14 @@ class input_port:
     pi.set_glitch_filter(gpio_num, 300)
     self.cb = pi.callback(gpio_num, pigpio.EITHER_EDGE, self.gpio_triggered)
 
-  def gpio_triggered(self, gpio_num, state, time):
+  def gpio_triggered(self, gpio_num, state, t):
     global script_name
     global app_start_time
     print (self.id, state)
     if not script_name:
       return
   
-    if time.time() - app_start_time < 30:
+    if (time.time() - app_start_time) < 30:
       return
 
     try:
