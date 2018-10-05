@@ -20,9 +20,17 @@ function main($argv)
         return 0;
     }
 
+    $cnt = 0;
     while (!feof($f)) {
+        $cnt ++;
+        if ($cnt > 50) {
+            $voltage = 0;
+            $status = 'error';
+            $error_msg = 'Can`t retrieve Channel 3 from ADC';
+            break;
+        }
         $line = fgets($f);
-        $rc = preg_match('CH3:([0-9]+)', $line, $matches);
+        $rc = preg_match('/CH3:([0-9]+)/', $line, $matches);
         if (!$rc)
             continue;
         $voltage = $matches[1] * $step;
