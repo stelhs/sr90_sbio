@@ -33,10 +33,15 @@ function main($argv)
         $status = 'error';
     }
 
+    $ret = run_cmd('uptime');
+    preg_match('/up (.+),/U', $ret['log'], $mathes);
+    $uptime = trim($mathes[1]);
+
     echo json_encode(['trigger_log' => $trigger_err,
                       'termo_sensors' => sbio()->get_temperatures(),
                       'status' => $status,
-                      'error_msg' => $error_msg]);
+                      'error_msg' => $error_msg,
+                      'uptime' => $uptime]);
     return 0;
 }
 
