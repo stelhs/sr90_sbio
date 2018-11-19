@@ -3,12 +3,12 @@
 require_once 'config.php';
 
 
-function sbio_reboot($method, $user_id = NULL)
+function sbio_reboot_async()
 {
     // TODO: notify server
     if(DISABLE_HW)
         return;
-    run_cmd('reboot');
+    run_cmd('sleep 1;reboot', true);
 }
 
 

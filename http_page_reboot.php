@@ -7,7 +7,7 @@ require_once 'sbio_lib.php';
 
 function main($argv)
 {
-    sbio_reboot();
+    sbio_reboot_async();
     echo json_encode(['status' => 'ok']);
 }
 

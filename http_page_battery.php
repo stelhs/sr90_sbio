@@ -8,7 +8,7 @@ require_once 'sbio_lib.php';
 
 function main($argv)
 {
-    $step = 12.93/3089;
+    $step = 12.91/3089;
     $status = 'ok';
     $error_msg = '';
 
