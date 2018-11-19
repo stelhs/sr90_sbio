@@ -8,8 +8,7 @@ function sbio_reboot($method, $user_id = NULL)
     // TODO: notify server
     if(DISABLE_HW)
         return;
-    run_cmd('halt');
-    for(;;);
+    run_cmd('reboot');
 }
 
 

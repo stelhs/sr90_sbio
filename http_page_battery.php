@@ -13,7 +13,7 @@ function main($argv)
     $error_msg = '';
 
 
-    $f = fopen('/dev/ttyUSB0', 'r');
+    @$f = fopen('/dev/ttyUSB0', 'r');
     if (!$f) {
         echo json_encode(['status' => 'error',
                           'error_msg' => 'ttyUSB not opened']);
