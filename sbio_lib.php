@@ -95,7 +95,7 @@ class Sbio {
             if (!$ret)
                 continue;
             $content = file_get_contents(sprintf("%s/%s/w1_slave", $path, $device));
-            preg_match_all("/t=(\d+)/", $content, $matches);
+            preg_match_all("/t=([\d-]+)/", $content, $matches);
             $temperature = (float)$matches[1][0] / 1000.0;
             $result[] = ['name' => $device, "temperature" => $temperature];
         }
