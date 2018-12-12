@@ -8,7 +8,8 @@ require_once 'sbio_lib.php';
 
 function main($argv)
 {
-    $step = 12.91/3089;
+    $voltage_step = 12.91 / 3089;
+    $current_step = 3.5 / 820;
     $status = 'ok';
     $error_msg = '';
 
@@ -21,6 +22,8 @@ function main($argv)
     }
 
     $cnt = 0;
+    $voltage_detected = false;
+    $current_detected = false;
     while (!feof($f)) {
         $cnt ++;
         if ($cnt > 50) {
@@ -31,13 +34,22 @@ function main($argv)
         }
         $line = fgets($f);
         $rc = preg_match('/CH3:([0-9]+)/', $line, $matches);
-        if (!$rc)
-            continue;
-        $voltage = $matches[1] * $step;
-        break;
+        if ($rc) {
+            $voltage = round($matches[1] * $voltage_step, 2);
+            $voltage_detected = true;
+        }
+
+        $rc = preg_match('/CH1:([0-9]+)/', $line, $matches);
+        if ($rc) {
+            $val = $matches[1] - 3220; // 3225 - Current 0A
+            $current = round($val * $current_step, 2);
+            $current_detected = true;
+        }
+
+        if ($voltage_detected && $current_detected)
+            break;
     }
     fclose($f);
-    $current = 0;
 
     echo json_encode(['voltage' => $voltage,
                       'current' => $current,
