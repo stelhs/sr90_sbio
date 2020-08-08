@@ -41,7 +41,7 @@ function main($argv)
 
         $rc = preg_match('/CH1:([0-9]+)/', $line, $matches);
         if ($rc) {
-            $val = $matches[1] - 3185; // 3225 - Current 0A
+            $val = $matches[1] - 3197; // 3225 - Current 0A
             $current = round($val * $current_step, 2);
             $current_detected = true;
         }

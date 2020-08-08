@@ -18,6 +18,9 @@ function main($argv) {
     $action_port = $argv[1];
     $action_state = $argv[2];
 
+    if ($action_state != 0 || $action_state != 1)
+        return;
+
     $query = sprintf("http://%s:%d/ioserver" .
                      "?io=%s&port=%d&state=%d",
                      conf_io()['server']['ip'],
