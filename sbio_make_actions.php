@@ -18,8 +18,6 @@ function main($argv) {
     $action_port = $argv[1];
     $action_state = $argv[2];
 
-    printf("action on port: %d, state: %d\n", $action_port, $action_state);
-
     if ($action_state != 0 && $action_state != 1)
         return;
 
