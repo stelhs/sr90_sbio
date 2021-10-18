@@ -18,7 +18,9 @@ function main($argv) {
     $action_port = $argv[1];
     $action_state = $argv[2];
 
-    if ($action_state != 0 || $action_state != 1)
+    printf("action on port: %d, state: %d\n", $action_port, $action_state);
+
+    if ($action_state != 0 && $action_state != 1)
         return;
 
     $query = sprintf("http://%s:%d/ioserver" .
@@ -28,6 +30,8 @@ function main($argv) {
                      conf_io()['name'],
                      $action_port,
                      $action_state);
+
+    printf("query = %s", $query);
 
     $content = file_get_contents($query);
     if ($content === FALSE || !$content) {

@@ -88,8 +88,9 @@ class Sbio {
         $result = [];
         $path = "/sys/bus/w1/devices";
         $devices = get_list_files($path);
-        if (!count($devices))
+        if (!$devices || !count($devices))
             return [];
+
         foreach ($devices as $device) {
             $ret = preg_match("/\d{2}-/", $device);
             if (!$ret)
